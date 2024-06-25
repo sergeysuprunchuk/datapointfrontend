@@ -1,0 +1,13 @@
+@import "assets/styles/variables.css";
+@import "assets/styles/fonts.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	html {
+		font-family: "robotomono", sans-serif;
+		@apply bg-surface-100 text-surface-800;
+	}
+}

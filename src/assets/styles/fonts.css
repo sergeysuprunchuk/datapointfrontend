@@ -1,0 +1,11 @@
+@font-face {
+	font-family: "robotomono";
+	font-style: normal;
+	src: url("../fonts/robotomono/robotomono-variablefont_wght.ttf");
+}
+
+@font-face {
+	font-family: "robotomono";
+	font-style: italic;
+	src: url("../fonts/robotomono/robotomono-italic-variablefont_wght.ttf");
+}
