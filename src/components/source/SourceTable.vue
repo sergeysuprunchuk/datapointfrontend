@@ -6,6 +6,7 @@ import { api } from "../../api/source"
 import { Source } from "../../types/source"
 import SourceDelete from "./SourceDelete.vue"
 import SourceEditForm from "./SourceEditForm.vue"
+import SourceViewButton from "./SourceViewButton.vue"
 
 const { data, isLoading } = useQuery({
 	queryKey: [QueryKey.Sources],
@@ -59,7 +60,8 @@ const { data, isLoading } = useQuery({
 		</app-column>
 		<app-column header="Действия">
 			<template #body="{ data }: { data: Source }">
-				<div class="flex gap-2">
+				<div class="flex gap-2 items-center">
+					<source-view-button :id="data.id" />
 					<source-edit-form :init="data" />
 					<source-delete :id="data.id" />
 				</div>

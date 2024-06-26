@@ -4,6 +4,7 @@ export enum RouteName {
 	Sources = "sources",
 	Dashboards = "dashboards",
 	Editor = "editor",
+	Source = "source",
 }
 
 export const router = createRouter({
@@ -31,8 +32,18 @@ export const router = createRouter({
 		},
 		{
 			path: "/sources",
-			name: RouteName.Sources,
-			component: () => import("../pages/SourcesPage.vue"),
+			children: [
+				{
+					path: "",
+					name: RouteName.Sources,
+					component: () => import("../pages/SourcesPage.vue"),
+				},
+				{
+					path: ":id",
+					name: RouteName.Source,
+					component: () => import("../pages/SourcePage.vue"),
+				},
+			],
 		},
 	],
 })

@@ -31,6 +31,8 @@ watch(visible, value => value && reset())
 	<app-button
 		@click="visible = true"
 		label="Добавить соединение"
+		icon="pi pi-plus"
+		text
 	/>
 	<app-dialog
 		modal
