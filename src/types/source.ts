@@ -9,3 +9,13 @@ export interface Source {
 	databaseName: string
 	driver: string
 }
+
+export interface Column {
+	name: string
+	type: string
+}
+
+export interface Table {
+	name: string
+	columns: Column[]
+}

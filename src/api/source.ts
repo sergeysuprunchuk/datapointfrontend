@@ -1,5 +1,5 @@
 import { request } from "./request"
-import { Source } from "../types/source"
+import { Source, Table } from "../types/source"
 
 export const api = {
 	getAll: async (): Promise<Source[]> => {
@@ -24,5 +24,13 @@ export const api = {
 
 	getDrivers: async (): Promise<string[]> => {
 		return (await request.get("/sources/drivers")).data
+	},
+
+	getTables: async (id: string): Promise<Table[]> => {
+		return (await request.get(`/sources/${id}/tables`)).data
+	},
+
+	getFunctions: async (id: string): Promise<string[]> => {
+		return (await request.get(`/sources/${id}/functions`)).data
 	},
 }
