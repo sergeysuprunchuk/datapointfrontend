@@ -13,6 +13,8 @@ export interface Source {
 export interface Column {
 	name: string
 	type: string
+	required: boolean
+	isPKey: boolean
 }
 
 export interface Table {

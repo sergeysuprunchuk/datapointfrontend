@@ -4,7 +4,7 @@ export enum RouteName {
 	Sources = "sources",
 	Dashboards = "dashboards",
 	Editor = "editor",
-	Source = "source",
+	QueryEditor = "queryEditor",
 }
 
 export const router = createRouter({
@@ -40,8 +40,8 @@ export const router = createRouter({
 				},
 				{
 					path: ":id",
-					name: RouteName.Source,
-					component: () => import("../pages/SourcePage.vue"),
+					name: RouteName.QueryEditor,
+					component: () => import("../pages/QueryEditorPage.vue"),
 				},
 			],
 		},

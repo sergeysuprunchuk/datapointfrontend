@@ -5,7 +5,7 @@ defineProps<{ id: string }>()
 </script>
 
 <template>
-	<router-link :to="{ name: RouteName.Source, params: { id } }">
+	<router-link :to="{ name: RouteName.QueryEditor, params: { id } }">
 		<i class="pi pi-table" />
 	</router-link>
 </template>

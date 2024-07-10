@@ -9,14 +9,19 @@
 @layer base {
 	html {
 		font-family: "robotomono", sans-serif;
-		@apply bg-surface-100 dark:bg-surface-800 text-surface-700 dark:text-surface-0;
+		@apply bg-surface-100
+		dark:bg-surface-800
+		text-surface-700
+		dark:text-surface-0;
 	}
-}
 
-.primary-background {
-	@apply bg-surface-0 dark:bg-surface-900;
-}
+	.primary-background {
+		@apply bg-surface-0
+		dark:bg-surface-900;
+	}
 
-.primary-border {
-	@apply border-surface-200 dark:border-surface-700;
+	.primary-border {
+		@apply border-surface-200
+		dark:border-surface-700;
+	}
 }

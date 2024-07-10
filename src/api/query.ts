@@ -1,12 +1,13 @@
-import { Query, QueryResponse } from "../types/query"
 import { request } from "./request"
+import { QResponse, Query } from "../components/queryEditor/types"
 
 export const api = {
-	execute: async (query: Query): Promise<QueryResponse> => {
+	execute: async (query: Query): Promise<QResponse<unknown>> => {
 		const json = JSON.stringify(query, (key, value) => {
 			if (key === "rawColumns" || key === "parent") return
 			return value
 		})
+
 		return (
 			await request.post(`/queries/execute`, json, {
 				headers: {
