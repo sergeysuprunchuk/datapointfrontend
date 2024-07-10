@@ -46,5 +46,6 @@ onMounted(() => {
 		:icon="icon"
 		@click="onClick"
 		text
+		size="small"
 	/>
 </template>
