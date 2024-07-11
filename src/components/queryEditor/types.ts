@@ -33,6 +33,7 @@ export interface QTable extends QTableKey {
 
 export enum PayloadKey {
 	MetaKey = "metaKey",
+	Order = "order",
 }
 
 export enum MetaKey {

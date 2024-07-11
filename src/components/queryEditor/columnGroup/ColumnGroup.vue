@@ -5,12 +5,60 @@ import { DtKey } from "../../../enums/dtKey"
 import { Nullable } from "primevue/ts-helpers"
 import ColumnOptions from "./ColumnOptions.vue"
 import { getKey } from "../utils.ts"
+import { computed } from "vue"
 
-const props = defineProps<{
-	header: string
-	metaKey?: string
-	modelValue: Nullable<QColumn[]>
-}>()
+type color =
+	| "red"
+	| "orange"
+	| "amber"
+	| "yellow"
+	| "lime"
+	| "green"
+	| "emerald"
+	| "teal"
+	| "cyan"
+	| "blue"
+	| "indigo"
+	| "violet"
+	| "purple"
+	| "fuchsia"
+	| "pink"
+	| "rose"
+	| "primary"
+
+const props = withDefaults(
+	defineProps<{
+		header: string
+		metaKey?: string
+		modelValue: Nullable<QColumn[]>
+		color?: color
+	}>(),
+	{
+		color: "primary",
+	},
+)
+
+const getColor = computed<string>(() => {
+	return {
+		red: "bg-red-500",
+		orange: "bg-orange-500",
+		amber: "bg-amber-500",
+		yellow: "bg-yellow-500",
+		lime: "bg-lime-500",
+		green: "bg-green-500",
+		emerald: "bg-emerald-500",
+		teal: "bg-teal-500",
+		cyan: "bg-cyan-500",
+		blue: "bg-blue-500",
+		indigo: "bg-indigo-500",
+		violet: "bg-violet-500",
+		purple: "bg-purple-500",
+		fuchsia: "bg-fuchsia-500",
+		pink: "bg-pink-500",
+		rose: "bg-rose-500",
+		primary: "bg-primary",
+	}[props.color]
+})
 
 const emit = defineEmits<{ "update:model-value": [QColumn[]] }>()
 
@@ -61,9 +109,10 @@ const deleteColumn = (qColumn: QColumn) => {
 			@dragleave.prevent="dragleave"
 		>
 			<span
-				class="text-primary-inverse bg-primary rounded-md py-1 px-3 text-sm flex select-none"
-				v-for="column in modelValue"
+				class="text-primary-inverse rounded-md py-1 px-3 text-sm flex select-none"
+				v-for="(column, i) in modelValue"
 				@dragover.stop
+				:class="getColor"
 			>
 				<span class="w-full truncate"
 					>{{ getKey(column.tableKey) }}.{{ column.name }}</span
@@ -72,6 +121,7 @@ const deleteColumn = (qColumn: QColumn) => {
 					:model-value="column"
 					@update:model-value="update(column, $event)"
 				>
+					<slot :i="i" />
 					<app-button
 						severity="danger"
 						outlined

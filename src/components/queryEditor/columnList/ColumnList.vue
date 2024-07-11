@@ -38,7 +38,7 @@ const dragstart = (event: any, table: QTable, column: Column) => {
 						@dragstart="dragstart($event, item, column)"
 						>{{ column.name }}</span
 					>
-					<span class="justify-self-end text-green-500 text-sm font-medium">{{
+					<span class="justify-self-end text-fuchsia-500 text-sm font-medium">{{
 						column.type
 					}}</span>
 				</li>
