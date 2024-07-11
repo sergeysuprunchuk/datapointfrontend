@@ -75,6 +75,7 @@ export interface Condition {
 export interface SQResponse {
 	rules: { [key: string]: string[] }
 	data: { [key: string]: any[] }
+	total: number
 }
 
 export interface QResponse<T> {

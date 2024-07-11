@@ -6,11 +6,17 @@ import ColumnList from "./columnList/ColumnList.vue"
 import ColumnGroup from "./columnGroup/ColumnGroup.vue"
 import TableWidget from "../widget/TableWidget.vue"
 import { Widget } from "../widget/types"
-import { getAllKeys, getKey } from "./utils.ts"
+import { getAllKeys, getKey } from "./utils"
+import PaginationForm from "./paginationForm/PaginationForm.vue"
 
 const props = defineProps<{ sourceId: string }>()
 
-const query = ref<Query>({ sourceId: props.sourceId, type: QueryType.Select })
+const query = ref<Query>({
+	sourceId: props.sourceId,
+	type: QueryType.Select,
+	limit: 0,
+	offset: 0,
+})
 
 const updateQTable = (qTable: QTable) => {
 	query.value.table = qTable
@@ -20,6 +26,8 @@ const updateQTable = (qTable: QTable) => {
 	query.value.columns = query.value.columns?.filter(c =>
 		keys.includes(getKey(c.tableKey)),
 	)
+
+	query.value.offset = 0
 }
 
 const widget = computed<Widget>(() => {
@@ -52,6 +60,11 @@ const widget = computed<Widget>(() => {
 				header="Столбцы таблицы"
 				v-model="query.columns"
 				:meta-key="MetaKey.Value"
+				@update:model-value="query.offset = 0"
+			/>
+			<pagination-form
+				v-model="query.limit"
+				@update:model-value="query.offset = 0"
 			/>
 		</aside>
 		<div class="w-full flex flex-col">

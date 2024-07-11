@@ -1,12 +1,11 @@
 <script lang="ts" setup>
-import { AppBlock, AppButton, AppDropdown } from "../../../ui"
+import { AppBlock, AppButton, AppDropdown, AppCustomDialog } from "../../../ui"
 import { useQuery } from "@tanstack/vue-query"
 import { QueryKey } from "../../../enums/queryKey"
 import { api } from "../../../api/source"
 import { Nullable } from "primevue/ts-helpers"
 import { QTable, QTableKey, Rule } from "../types"
 import { Table } from "../../../types/source"
-import CustomDialog from "../../../ui/customDialog/CustomDialog.vue"
 import { ref } from "vue"
 import TableList from "./TableList.vue"
 import TableTree from "./TableTree.vue"
@@ -78,7 +77,7 @@ const setRule = (target: QTableKey, rule: Rule) => {
 				:disabled="!modelValue"
 				@click="visible = true"
 			/>
-			<custom-dialog
+			<app-custom-dialog
 				v-model:visible="visible"
 				header="Настройка таблиц"
 				class="w-screen max-w-7xl h-full"
@@ -95,7 +94,7 @@ const setRule = (target: QTableKey, rule: Rule) => {
 						/>
 					</div>
 				</div>
-			</custom-dialog>
+			</app-custom-dialog>
 		</div>
 	</app-block>
 </template>

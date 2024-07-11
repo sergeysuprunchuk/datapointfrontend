@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { AppDataTable, AppColumn } from "../../ui"
+import { AppDataTable, AppColumn, AppPaginator } from "../../ui"
 import { Widget } from "./types"
 import { computed, onMounted, ref, watch } from "vue"
-import { QResponse, QTable, Query, SQResponse } from "../queryEditor/types"
+import { QTable, Query, SQResponse } from "../queryEditor/types"
 import { cloneDeep } from "lodash"
 import { useQuery } from "@tanstack/vue-query"
 import { api } from "../../api/query"
@@ -51,14 +51,29 @@ const { data, isLoading } = useQuery({
 	enabled,
 })
 
-const value = computed<any>(() => {
-	return data.value ? (<QResponse<SQResponse>>data.value).data.data : []
+const response = computed<SQResponse | undefined>(() => {
+	return data.value ? <SQResponse>data.value.data : undefined
 })
 
-const columns = computed<string[]>(() => {
-	return data.value
-		? (<QResponse<SQResponse>>data.value).data.rules[MetaKey.Value]
-		: []
+const value = computed<any>(() => (response.value ? response.value.data : []))
+
+const columns = computed<string[]>(() =>
+	response.value ? response.value.rules[MetaKey.Value] : [],
+)
+
+const total = computed<number>(() =>
+	response.value ? response.value.total : 0,
+)
+
+const updateFirst = (offset: number) => {
+	if (query.value) query.value.offset = offset
+}
+
+const first = computed<number>(() => {
+	if (query.value && query.value.offset && query.value.limit) {
+		return query.value.offset / query.value.limit
+	}
+	return 0
 })
 </script>
 
@@ -73,4 +88,11 @@ const columns = computed<string[]>(() => {
 			:field="column"
 		/>
 	</app-data-table>
+	<app-paginator
+		:always-show="false"
+		:total-records="total"
+		:rows="widget.query.limit"
+		:first="first"
+		@update:first="updateFirst"
+	/>
 </template>
