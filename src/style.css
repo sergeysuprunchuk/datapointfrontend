@@ -24,4 +24,14 @@
 		@apply border-surface-200
 		dark:border-surface-700;
 	}
+
+	.common-sidebar {
+		@apply shrink-0
+		primary-background
+		primary-border
+		w-64
+		border-r
+		h-full
+		overflow-auto;
+	}
 }

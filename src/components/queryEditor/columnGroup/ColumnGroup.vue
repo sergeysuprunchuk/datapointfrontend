@@ -4,6 +4,7 @@ import { DragColumn, PayloadKey, QColumn } from "../types"
 import { DtKey } from "../../../enums/dtKey"
 import { Nullable } from "primevue/ts-helpers"
 import ColumnOptions from "./ColumnOptions.vue"
+import { getKey } from "../utils.ts"
 
 const props = defineProps<{
 	header: string
@@ -38,7 +39,9 @@ const dragover = (event: any) => event.target.classList.add(...classes)
 
 const dragleave = (event: any) => event.target.classList.remove(...classes)
 
-const update = (qColumn: QColumn, newQColumn: QColumn) => {}
+const update = (qColumn: QColumn, newQColumn: QColumn) => {
+	return [qColumn, newQColumn]
+}
 
 const deleteColumn = (qColumn: QColumn) => {
 	if (props.modelValue)
@@ -62,7 +65,9 @@ const deleteColumn = (qColumn: QColumn) => {
 				v-for="column in modelValue"
 				@dragover.stop
 			>
-				<span class="w-full truncate">{{ column.name }}</span>
+				<span class="w-full truncate"
+					>{{ getKey(column.tableKey) }}.{{ column.name }}</span
+				>
 				<column-options
 					:model-value="column"
 					@update:model-value="update(column, $event)"

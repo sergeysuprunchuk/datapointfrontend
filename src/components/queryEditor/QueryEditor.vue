@@ -6,6 +6,7 @@ import ColumnList from "./columnList/ColumnList.vue"
 import ColumnGroup from "./columnGroup/ColumnGroup.vue"
 import TableWidget from "../widget/TableWidget.vue"
 import { Widget } from "../widget/types"
+import { getAllKeys, getKey } from "./utils.ts"
 
 const props = defineProps<{ sourceId: string }>()
 
@@ -13,6 +14,12 @@ const query = ref<Query>({ sourceId: props.sourceId, type: QueryType.Select })
 
 const updateQTable = (qTable: QTable) => {
 	query.value.table = qTable
+
+	const keys = getAllKeys(qTable)
+
+	query.value.columns = query.value.columns?.filter(c =>
+		keys.includes(getKey(c.tableKey)),
+	)
 }
 
 const widget = computed<Widget>(() => {
@@ -55,14 +62,3 @@ const widget = computed<Widget>(() => {
 		</div>
 	</div>
 </template>
-
-<style scoped>
-.common-sidebar {
-	@apply shrink-0
-	primary-background
-	primary-border
-	w-64
-	border-r
-	h-full;
-}
-</style>

@@ -21,12 +21,24 @@ onMounted(copyQuery)
 watch(() => props.widget.query, copyQuery, { deep: true })
 
 const enabled = computed<boolean>(() => {
-	if (!query.value || !query.value.table || !query.value.columns) return false
+	if (
+		!query.value ||
+		!query.value.table ||
+		!query.value.columns ||
+		!query.value.columns.length
+	)
+		return false
 
-	const queue: QTable[] = [query.value.table]
+	const queue: QTable[] = query.value.table.next ?? []
 
 	for (const i of queue) {
-		//добавить проверку правил.
+		if (!i.rule || !i.rule.conditions || i.rule.conditions.length === 0)
+			return false
+
+		for (const condition of i.rule.conditions) {
+			if (!condition.columns[0] || !condition.columns[1]) return false
+		}
+
 		if (i.next) queue.push(...i.next)
 	}
 

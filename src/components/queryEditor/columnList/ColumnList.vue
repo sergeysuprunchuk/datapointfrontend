@@ -4,6 +4,7 @@ import { computed } from "vue"
 import { AppBlock } from "../../../ui"
 import { Column } from "../../../types/source"
 import { DtKey } from "../../../enums/dtKey"
+import { getKey } from "../utils.ts"
 
 const props = defineProps<{ root: QTable }>()
 
@@ -24,8 +25,8 @@ const dragstart = (event: any, table: QTable, column: Column) => {
 	<app-block header="Столбцы">
 		<ul class="select-none">
 			<template v-for="item in items">
-				<li class="font-medium text-lg">
-					<span>{{ item.name }}</span>
+				<li class="font-medium text-lg mt-5">
+					<span>{{ getKey(item) }}</span>
 				</li>
 				<li
 					v-for="column in item.rawColumns"

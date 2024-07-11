@@ -4,8 +4,14 @@ import { useQuery } from "@tanstack/vue-query"
 import { QueryKey } from "../../../enums/queryKey"
 import { api } from "../../../api/source"
 import { Nullable } from "primevue/ts-helpers"
-import { QTable } from "../types"
+import { QTable, QTableKey, Rule } from "../types"
 import { Table } from "../../../types/source"
+import CustomDialog from "../../../ui/customDialog/CustomDialog.vue"
+import { ref } from "vue"
+import TableList from "./TableList.vue"
+import TableTree from "./TableTree.vue"
+import { cloneDeep } from "lodash"
+import { find } from "../utils"
 
 const props = defineProps<{ sourceId: string; modelValue: Nullable<QTable> }>()
 
@@ -22,6 +28,32 @@ const update = (table: Table) => {
 		increment: 0,
 		rawColumns: table.columns,
 	})
+}
+
+const visible = ref<boolean>(false)
+
+const drop = (target: QTableKey, newQt: QTable[]) => {
+	if (!props.modelValue) return
+
+	const newValue: QTable = cloneDeep(props.modelValue)
+
+	const qt = find(newValue, target)
+
+	if (qt) qt.next = newQt
+
+	emit("update:model-value", newValue)
+}
+
+const setRule = (target: QTableKey, rule: Rule) => {
+	if (!props.modelValue) return
+
+	const newValue: QTable = cloneDeep(props.modelValue)
+
+	const qt = find(newValue, target)
+
+	if (qt) qt.rule = rule
+
+	emit("update:model-value", newValue)
 }
 </script>
 
@@ -42,9 +74,28 @@ const update = (table: Table) => {
 				size="small"
 				outlined
 				icon="pi pi-share-alt"
-				disabled
 				class="shrink-0"
+				:disabled="!modelValue"
+				@click="visible = true"
 			/>
+			<custom-dialog
+				v-model:visible="visible"
+				header="Настройка таблиц"
+				class="w-screen max-w-7xl h-full"
+			>
+				<div class="w-full h-full flex">
+					<aside class="common-sidebar w-96">
+						<table-list :options="<Table[]>data" />
+					</aside>
+					<div class="w-full h-full p-4">
+						<table-tree
+							:root="<QTable>modelValue"
+							@drop="drop"
+							@set-rule="setRule"
+						/>
+					</div>
+				</div>
+			</custom-dialog>
 		</div>
 	</app-block>
 </template>

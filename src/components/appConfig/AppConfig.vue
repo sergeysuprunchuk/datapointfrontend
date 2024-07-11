@@ -21,7 +21,7 @@ const switchPalette = (palette: Palette) => {
 }
 
 const currentPalette = computed<PaletteKey>(() => {
-	const item = localStorage.getItem(LOCAL_KEY)
+	const item: any = localStorage.getItem(LOCAL_KEY)
 
 	if (
 		!item ||
@@ -43,7 +43,7 @@ onMounted(() => {
 	if (currentPalette.value !== PaletteKey.Indigo) {
 		const palette = palettes.find(p => p.key === currentPalette.value)
 
-		switchPalette(palette)
+		switchPalette(<Palette>palette)
 	}
 })
 </script>

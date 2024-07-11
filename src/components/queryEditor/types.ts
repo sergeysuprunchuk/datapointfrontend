@@ -48,8 +48,8 @@ export interface QColumn {
 }
 
 export enum RType {
-	Join = "join",
 	Left = "left",
+	Join = "join",
 	Right = "right",
 }
 
@@ -68,7 +68,7 @@ export enum Operator {
 }
 
 export interface Condition {
-	columns: [QColumn, QColumn]
+	columns: [QColumn | undefined, QColumn | undefined]
 	operator: Operator
 }
 
