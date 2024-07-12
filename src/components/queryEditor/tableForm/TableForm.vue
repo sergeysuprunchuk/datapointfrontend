@@ -12,7 +12,14 @@ import TableTree from "./TableTree.vue"
 import { cloneDeep } from "lodash"
 import { find } from "../utils"
 
-const props = defineProps<{ sourceId: string; modelValue: Nullable<QTable> }>()
+const props = withDefaults(
+	defineProps<{
+		sourceId: string
+		modelValue: Nullable<QTable>
+		full?: boolean
+	}>(),
+	{ full: false },
+)
 
 const emit = defineEmits<{ "update:model-value": [QTable] }>()
 
@@ -76,6 +83,7 @@ const setRule = (target: QTableKey, rule: Rule) => {
 				class="shrink-0"
 				:disabled="!modelValue"
 				@click="visible = true"
+				v-if="full"
 			/>
 			<app-custom-dialog
 				v-model:visible="visible"
