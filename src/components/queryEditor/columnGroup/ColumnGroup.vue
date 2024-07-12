@@ -74,6 +74,7 @@ const drop = (event: any) => {
 	const qColumn: QColumn = {
 		tableKey: { name: table.name, increment: table.increment },
 		name: column.name,
+		rawColumn: column,
 	}
 
 	if (props.metaKey) qColumn.payload = { [PayloadKey.MetaKey]: props.metaKey }

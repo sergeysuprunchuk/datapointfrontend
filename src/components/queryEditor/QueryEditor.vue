@@ -9,13 +9,16 @@ import { Widget } from "../widget/types"
 import { getAllKeys, getKey } from "./utils"
 import PaginationForm from "./paginationForm/PaginationForm.vue"
 import { AppDropdown } from "../../ui"
+import { useQuery } from "@tanstack/vue-query"
+import { QueryKey } from "../../enums/queryKey"
+import { api } from "../../api/source"
 
 const props = defineProps<{ sourceId: string }>()
 
 const query = ref<Query>({
 	sourceId: props.sourceId,
 	type: QueryType.Select,
-	limit: 0,
+	limit: 10,
 	offset: 0,
 })
 
@@ -35,7 +38,7 @@ const widget = computed<Widget>(() => {
 	return {
 		query: JSON.parse(
 			JSON.stringify(query.value, (key, value) => {
-				if (key === "rawColumns" || key === "parent") return
+				if (key === "rawColumns" || key === "rawColumn") return
 				return value
 			}),
 		),
@@ -62,6 +65,26 @@ const orderType = (i: number) => {
 
 	return null
 }
+
+const { data: functions, isLoading } = useQuery({
+	queryKey: [QueryKey.Functions, props.sourceId],
+	queryFn: () => api.getFunctions(props.sourceId),
+})
+
+const columnType = (i: number): string => {
+	if (query.value.columns) return query.value.columns[i].rawColumn.type
+	return ""
+}
+
+const columnFunc = (i: number): string | undefined => {
+	return query.value.columns?.[i]?.func
+}
+
+const updateColumnFunc = (i: number, func: string) => {
+	if (query.value.columns && query.value.columns[i]) {
+		query.value.columns[i].func = func
+	}
+}
 </script>
 
 <template>
@@ -84,7 +107,20 @@ const orderType = (i: number) => {
 				v-model="query.columns"
 				:meta-key="MetaKey.Value"
 				@update:model-value="query.offset = 0"
-			/>
+			>
+				<template
+					#default="{ i }"
+					v-if="functions"
+				>
+					<app-dropdown
+						placeholder="Функция"
+						:loading="isLoading"
+						:options="functions[columnType(i)]"
+						:model-value="columnFunc(i)"
+						@update:modelValue="updateColumnFunc(i, $event)"
+					/>
+				</template>
+			</column-group>
 			<column-group
 				color="amber"
 				header="Сортировать по"
@@ -96,7 +132,6 @@ const orderType = (i: number) => {
 						:options="['ASC', 'DESC']"
 						:model-value="orderType(i)"
 						@update:modelValue="updateOrderType(i, $event)"
-						@update:model-value=""
 					/>
 				</template>
 			</column-group>

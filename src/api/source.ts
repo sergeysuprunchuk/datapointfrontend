@@ -30,7 +30,7 @@ export const api = {
 		return (await request.get(`/sources/${id}/tables`)).data
 	},
 
-	getFunctions: async (id: string): Promise<string[]> => {
+	getFunctions: async (id: string): Promise<{ [key: string]: string[] }> => {
 		return (await request.get(`/sources/${id}/functions`)).data
 	},
 }

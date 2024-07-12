@@ -65,7 +65,7 @@ const updateColumn = (
 ) => {
 	const newColumns = cloneDeep(props.modelValue.conditions[iCondition].columns)
 
-	newColumns[iColumn] = { tableKey, name: column.name }
+	newColumns[iColumn] = { tableKey, name: column.name, rawColumn: column }
 
 	updateCondition(iCondition, "columns", newColumns)
 }

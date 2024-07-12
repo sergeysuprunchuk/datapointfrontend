@@ -46,6 +46,9 @@ export interface QColumn {
 	payload?: { [key: string]: any }
 	func?: string
 	value?: any
+
+	//на данный момент удаляю, в будущем может понадобиться на бэкенде.
+	rawColumn: Column
 }
 
 export enum RType {
