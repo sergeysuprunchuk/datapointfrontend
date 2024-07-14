@@ -60,7 +60,11 @@ const getColor = computed<string>(() => {
 	}[props.color]
 })
 
-const emit = defineEmits<{ "update:model-value": [QColumn[]] }>()
+const emit = defineEmits<{
+	"update:model-value": [QColumn[]]
+	"add": [QColumn]
+	"delete": [QColumn]
+}>()
 
 const classes = ["ring", "ring-primary/50"]
 
@@ -82,6 +86,8 @@ const drop = (event: any) => {
 	if (props.modelValue)
 		emit("update:model-value", [...props.modelValue, qColumn])
 	else emit("update:model-value", [qColumn])
+
+	emit("add", qColumn)
 }
 
 const dragover = (event: any) => event.target.classList.add(...classes)
@@ -98,6 +104,8 @@ const deleteColumn = (qColumn: QColumn) => {
 			"update:model-value",
 			props.modelValue.filter(value => value !== qColumn),
 		)
+
+	emit("delete", qColumn)
 }
 </script>
 

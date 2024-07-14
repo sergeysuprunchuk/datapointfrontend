@@ -91,7 +91,7 @@ const first = computed<number>(() => {
 	<app-paginator
 		:always-show="false"
 		:total-records="total"
-		:rows="widget.query.limit"
+		:rows="(<Query>widget.query).limit"
 		:first="first"
 		@update:first="updateFirst"
 	/>

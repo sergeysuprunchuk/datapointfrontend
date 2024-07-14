@@ -10,9 +10,16 @@ export interface Source {
 	driver: string
 }
 
+export enum ColumnType {
+	Number = "number",
+	String = "string",
+	Boolean = "boolean",
+	Unsupported = "unsupported",
+}
+
 export interface Column {
 	name: string
-	type: string
+	type: ColumnType
 	required: boolean
 	isPKey: boolean
 }
