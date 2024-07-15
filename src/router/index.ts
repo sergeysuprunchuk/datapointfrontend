@@ -2,9 +2,7 @@ import { createRouter, createWebHistory, RouterView } from "vue-router"
 
 export enum RouteName {
 	Sources = "sources",
-	Dashboards = "dashboards",
-	Editor = "editor",
-	QueryEditor = "queryEditor",
+	Widgets = "widgets",
 }
 
 export const router = createRouter({
@@ -15,18 +13,13 @@ export const router = createRouter({
 			redirect: "/sources",
 		},
 		{
-			path: "/dashboards",
+			path: "/widgets",
 			component: RouterView,
 			children: [
 				{
 					path: "",
-					name: RouteName.Dashboards,
-					component: () => import("../pages/DashboardsPage.vue"),
-				},
-				{
-					path: "editor",
-					name: RouteName.Editor,
-					component: () => import("../pages/EditorPage.vue"),
+					name: RouteName.Widgets,
+					component: () => import("../pages/WidgetEditorPage.vue"),
 				},
 			],
 		},
@@ -37,11 +30,6 @@ export const router = createRouter({
 					path: "",
 					name: RouteName.Sources,
 					component: () => import("../pages/SourcesPage.vue"),
-				},
-				{
-					path: ":id",
-					name: RouteName.QueryEditor,
-					component: () => import("../pages/QueryEditorPage.vue"),
 				},
 			],
 		},

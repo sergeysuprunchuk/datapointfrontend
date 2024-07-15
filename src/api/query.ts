@@ -1,10 +1,10 @@
 import { request } from "./request"
-import { QResponse, Query } from "../components/queryEditor/types"
+import { Query, QResponse } from "../components/widgetEditor/query/types"
 
 export const api = {
-	execute: async (query: Query): Promise<QResponse<unknown>> => {
+	execute: async <T = any>(query: Query): Promise<QResponse<T>> => {
 		const json = JSON.stringify(query, (key, value) => {
-			if (key === "rawColumns" || key === "rawColumn") return
+			if (key === "rawColumns") return
 			return value
 		})
 

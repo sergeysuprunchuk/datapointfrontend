@@ -11,8 +11,8 @@ import { RouteName } from "../../router"
 		>
 		<router-link
 			class="router-link"
-			:to="{ name: RouteName.Dashboards }"
-			>Дашборды</router-link
+			:to="{ name: RouteName.Widgets }"
+			>Виджеты</router-link
 		>
 	</ul>
 </template>
