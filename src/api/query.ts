@@ -1,5 +1,5 @@
 import { request } from "./request"
-import { Query, QResponse } from "../components/widgetEditor/query/types"
+import { Query, QResponse } from "../components/widget/widgetEditor/query/types"
 
 export const api = {
 	execute: async <T = any>(query: Query): Promise<QResponse<T>> => {

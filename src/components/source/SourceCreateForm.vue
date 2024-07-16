@@ -3,9 +3,9 @@ import { AppButton, AppDialog, AppMessage } from "../../ui"
 import { computed, ref, watch } from "vue"
 import SourceForm from "./SourceForm.vue"
 import { useMutation, useQueryClient } from "@tanstack/vue-query"
-import { api } from "../../api/source"
-import { Source } from "../../types/source"
-import { QueryKey } from "../../enums/queryKey"
+import { api } from "@/api/source"
+import { Source } from "@/types/source"
+import { QueryKey } from "@/enums/queryKey"
 import { error as errorUtils } from "../../utils/error"
 
 const visible = ref<boolean>(false)

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { onMounted, ref } from "vue"
-import { Source } from "../../types/source"
-import { AppInputText, AppInputNumber, AppDropdown, AppButton } from "../../ui"
+import { Source } from "@/types/source"
+import { AppInputText, AppInputNumber, AppDropdown, AppButton } from "@/ui"
 import { cloneDeep } from "lodash"
 import { useQuery } from "@tanstack/vue-query"
-import { api } from "../../api/source"
-import { QueryKey } from "../../enums/queryKey"
+import { api } from "@/api/source"
+import { QueryKey } from "@/enums/queryKey"
 
 const props = defineProps<{ init?: Source }>()
 

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { AppDataTable, AppColumn } from "../../ui"
 import { useQuery } from "@tanstack/vue-query"
-import { QueryKey } from "../../enums/queryKey"
-import { api } from "../../api/source"
-import { Source } from "../../types/source"
+import { QueryKey } from "@/enums/queryKey"
+import { api } from "@/api/source"
+import { Source } from "@/types/source"
 import SourceDelete from "./SourceDelete.vue"
 import SourceEditForm from "./SourceEditForm.vue"
 

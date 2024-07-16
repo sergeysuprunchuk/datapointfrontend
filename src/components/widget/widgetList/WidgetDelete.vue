@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useMutation, useQueryClient } from "@tanstack/vue-query"
-import { api } from "@/api/source"
+import { api } from "@/api/widget"
 import { QueryKey } from "@/enums/queryKey"
 
 defineProps<{ id: string }>()
@@ -10,7 +10,7 @@ const queryClient = useQueryClient()
 const { mutate } = useMutation({
 	mutationFn: (id: string) => api.delete(id),
 	onSuccess: () => {
-		queryClient.invalidateQueries({ queryKey: [QueryKey.Sources] })
+		queryClient.invalidateQueries({ queryKey: [QueryKey.Widgets] })
 	},
 })
 </script>

@@ -4,4 +4,5 @@ export enum QueryKey {
 	Tables = "tables",
 	Functions = "functions",
 	Query = "query",
+	Widgets = "widgets",
 }

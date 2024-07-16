@@ -3,6 +3,7 @@ import { createRouter, createWebHistory, RouterView } from "vue-router"
 export enum RouteName {
 	Sources = "sources",
 	Widgets = "widgets",
+	WidgetEditor = "widgetEditor",
 }
 
 export const router = createRouter({
@@ -19,7 +20,12 @@ export const router = createRouter({
 				{
 					path: "",
 					name: RouteName.Widgets,
-					component: () => import("../pages/WidgetEditorPage.vue"),
+					component: () => import("../pages/WidgetsPage.vue"),
+				},
+				{
+					path: "editor",
+					name: RouteName.WidgetEditor,
+					component: () => import("../pages/WidgetCreateEditorPage.vue"),
 				},
 			],
 		},
