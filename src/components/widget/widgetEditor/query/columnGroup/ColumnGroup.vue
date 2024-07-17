@@ -2,10 +2,14 @@
 import { AppBlock, AppOptionsButton, AppButton } from "@/ui"
 import { PayloadKey, QColumn } from "../types"
 import { Nullable } from "primevue/ts-helpers"
-import { getKey } from "../utils"
+import { getKey, keysEqual } from "../utils"
 import { DtKey } from "@/enums/dtKey"
 
-const props = defineProps<{ header: string; metaKey?: string }>()
+const props = defineProps<{
+	header: string
+	metaKey?: string
+	unique?: boolean
+}>()
 
 const emit = defineEmits<{ add: [QColumn]; delete: [QColumn] }>()
 
@@ -17,6 +21,17 @@ const drop = (event: any) => {
 	dragleave(event)
 
 	let column: QColumn = JSON.parse(event.dataTransfer.getData(DtKey.Column))
+
+	if (props.unique && model.value) {
+		for (const item of model.value) {
+			if (
+				keysEqual(item.tableKey, column.tableKey) &&
+				item.name === column.name
+			) {
+				return
+			}
+		}
+	}
 
 	if (props.metaKey)
 		column = { ...column, payload: { [PayloadKey.MetaKey]: props.metaKey } }

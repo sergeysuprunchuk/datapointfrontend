@@ -1,4 +1,11 @@
-import { QColumn, QTable, QTableKey, Query, SQResponse } from "./types"
+import {
+	PayloadKey,
+	QColumn,
+	QTable,
+	QTableKey,
+	Query,
+	SQResponse,
+} from "./types"
 import { computed, Ref, ref, watch } from "vue"
 import { cloneDeep } from "lodash"
 import { useQuery as stack } from "@tanstack/vue-query"
@@ -98,6 +105,34 @@ export const canExecute = (query: Query | undefined): boolean => {
 	}
 
 	return true
+}
+
+export interface QColumnGroup {
+	label: string
+	items: QColumn[]
+}
+
+export const getGroup = (root: QTable, metaKey?: string): QColumnGroup[] => {
+	const columns: QColumnGroup[] = []
+	const array: QTable[] = [root]
+
+	for (const table of array) {
+		const items: QColumn[] = []
+
+		table.rawColumns.forEach(column => {
+			items.push({
+				...column,
+				tableKey: { name: table.name, increment: table.increment },
+				payload: metaKey ? { [PayloadKey.MetaKey]: metaKey } : undefined,
+			})
+		})
+
+		columns.push({ label: getKey(table), items })
+
+		if (table.next) array.push(...table.next)
+	}
+
+	return columns
 }
 
 export const useQuery = (query: Ref<Query | undefined>) => {

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { FieldProps, Widget } from "../../types.ts"
+import { FieldProps, Widget } from "../../types"
 import { AppInputNumber } from "@/ui"
-import { useField } from "../../utils.ts"
+import { useField } from "../../utils"
 
 const props = defineProps<{ widget: Widget<FieldProps> }>()
 

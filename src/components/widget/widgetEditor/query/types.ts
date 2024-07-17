@@ -37,6 +37,7 @@ export enum PayloadKey {
 }
 
 export enum MetaKey {
+	Label = "label",
 	Value = "value",
 }
 

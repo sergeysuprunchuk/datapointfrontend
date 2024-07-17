@@ -4,8 +4,9 @@ import SourceForm from "./sourceForm/SourceForm.vue"
 import TableForm from "./tableForm/TableForm.vue"
 import { deleteImpossible, getAllKeys } from "../utils.ts"
 import ColumnList from "./columnList/ColumnList.vue"
+import { AppBlock } from "@/ui"
 
-defineProps<{ full?: boolean }>()
+defineProps<{ full?: boolean; small?: boolean }>()
 
 const model = defineModel<Query>({ required: true })
 
@@ -43,21 +44,36 @@ const setTable = (table: QTable) => {
 </script>
 
 <template>
-	<aside class="common-sidebar">
-		<source-form
-			:model-value="model.sourceId"
-			@update:model-value="setSource(<string>$event)"
-		/>
-		<table-form
+	<aside :class="!small ? 'common-sidebar' : 'flex flex-col gap-3'">
+		<app-block
+			:hidden="small"
+			header="Источник"
+		>
+			<source-form
+				:model-value="model.sourceId"
+				@update:model-value="setSource(<string>$event)"
+			/>
+		</app-block>
+		<app-block
+			:hidden="small"
+			header="Таблицы"
 			v-if="model.sourceId"
-			:model-value="model.table"
-			@update:model-value="setTable(<QTable>$event)"
-			:source-id="model.sourceId"
-			:full="full"
-		/>
-		<column-list
+		>
+			<table-form
+				:model-value="model.table"
+				@update:model-value="setTable(<QTable>$event)"
+				:source-id="model.sourceId"
+				:full="full"
+			/>
+		</app-block>
+		<app-block
+			:hidden="small"
+			header="Столбцы"
 			v-if="model.table"
-			:root="model.table"
-		/>
+		>
+			<slot>
+				<column-list :root="model.table" />
+			</slot>
+		</app-block>
 	</aside>
 </template>

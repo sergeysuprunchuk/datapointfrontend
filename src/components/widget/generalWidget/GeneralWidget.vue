@@ -1,11 +1,12 @@
 <script lang="ts" setup>
-import { Widget, WidgetType } from "../types.ts"
+import { Widget, WidgetType } from "../types"
 import { computed } from "vue"
 import TableWidget from "./widgets/TableWidget.vue"
 import FormWidget from "./widgets/FormWidget.vue"
 import InputTextWidget from "./widgets/InputTextWidget.vue"
 import InputNumberWidget from "./widgets/InputNumberWidget.vue"
 import CheckboxWidget from "./widgets/CheckboxWidget.vue"
+import DropdownWidget from "./widgets/DropdownWidget.vue"
 
 const props = defineProps<{ widget: Widget }>()
 
@@ -16,7 +17,7 @@ const widgetComponent = computed<any>(() => {
 		[WidgetType.InputText]: InputTextWidget,
 		[WidgetType.InputNumber]: InputNumberWidget,
 		[WidgetType.Checkbox]: CheckboxWidget,
-		[WidgetType.Dropdown]: null,
+		[WidgetType.Dropdown]: DropdownWidget,
 		[WidgetType.Bar]: null,
 		[WidgetType.Line]: null,
 		[WidgetType.Pie]: null,
