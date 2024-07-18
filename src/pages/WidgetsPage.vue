@@ -36,7 +36,7 @@ const selected = ref<Widget>()
 						</template>
 					</widget-list>
 				</aside>
-				<div class="w-full h-full p-6">
+				<div class="w-full h-full p-6 flex items-start justify-center">
 					<general-widget
 						v-if="selected"
 						:widget="selected"

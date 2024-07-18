@@ -4,7 +4,10 @@ import { Nullable } from "primevue/ts-helpers"
 import FunctionDropdown from "../functionDropdown/FunctionDropdown.vue"
 import ColumnGroup from "../columnGroup/ColumnGroup.vue"
 
-defineProps<{ sourceId: string; metaKey?: MetaKey }>()
+withDefaults(
+	defineProps<{ sourceId: string; metaKey?: MetaKey; header?: string }>(),
+	{ header: "Столбцы таблицы" },
+)
 
 const model = defineModel<Nullable<QColumn[]>>({ required: true })
 
@@ -21,7 +24,7 @@ const setColumn = (oldValue: QColumn, newValue: QColumn) => {
 
 <template>
 	<column-group
-		header="Столбцы таблицы"
+		:header="header"
 		:model-value="model"
 		@update:model-value="setColumns(<QColumn[]>$event)"
 		:meta-key="metaKey"

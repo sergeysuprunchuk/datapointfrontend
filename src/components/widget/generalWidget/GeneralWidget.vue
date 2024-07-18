@@ -7,6 +7,10 @@ import InputTextWidget from "./widgets/InputTextWidget.vue"
 import InputNumberWidget from "./widgets/InputNumberWidget.vue"
 import CheckboxWidget from "./widgets/CheckboxWidget.vue"
 import DropdownWidget from "./widgets/DropdownWidget.vue"
+import BarWidget from "@/components/widget/generalWidget/widgets/charts/BarWidget.vue"
+import LineWidget from "@/components/widget/generalWidget/widgets/charts/LineWidget.vue"
+import PieWidget from "@/components/widget/generalWidget/widgets/charts/PieWidget.vue"
+import ScatterWidget from "@/components/widget/generalWidget/widgets/charts/ScatterWidget.vue"
 
 const props = defineProps<{ widget: Widget }>()
 
@@ -18,10 +22,10 @@ const widgetComponent = computed<any>(() => {
 		[WidgetType.InputNumber]: InputNumberWidget,
 		[WidgetType.Checkbox]: CheckboxWidget,
 		[WidgetType.Dropdown]: DropdownWidget,
-		[WidgetType.Bar]: null,
-		[WidgetType.Line]: null,
-		[WidgetType.Pie]: null,
-		[WidgetType.Scatter]: null,
+		[WidgetType.Bar]: BarWidget,
+		[WidgetType.Line]: LineWidget,
+		[WidgetType.Pie]: PieWidget,
+		[WidgetType.Scatter]: ScatterWidget,
 	}[props.widget.type]
 })
 </script>

@@ -1,75 +1,40 @@
 <script lang="ts" setup>
-import { AppBlock, AppButton, AppOverlayPanel } from "../../ui"
-import { computed, onMounted, ref } from "vue"
-import { palettes, PRIMARY, shades } from "./palettes"
-import { Palette, PaletteKey } from "./types"
+import { AppOptionsButton, AppButton } from "@/ui"
+import { Theme, useAppConfig } from "@/stores/appConfig.ts"
+import { computed } from "vue"
 
-const panel = ref<any>()
+const { appConfig, toggleTheme, palettes, setPalette } = useAppConfig()
 
-const toggle = (event: any) => panel.value.toggle(event)
+const icon = computed<string>(() =>
+	appConfig.theme === Theme.Light ? "pi pi-sun" : "pi pi-moon",
+)
 
-const LOCAL_KEY = "palette"
-
-const switchPalette = (palette: Palette) => {
-	localStorage.setItem(LOCAL_KEY, palette.key)
-
-	const style = document.documentElement.style
-
-	shades.forEach((s, i) => {
-		style.setProperty(`--primary-${s}`, palette.colors[i])
-	})
-}
-
-const currentPalette = computed<PaletteKey>(() => {
-	const item: any = localStorage.getItem(LOCAL_KEY)
-
-	if (
-		!item ||
-		![
-			PaletteKey.Indigo,
-			PaletteKey.Blue,
-			PaletteKey.Emerald,
-			PaletteKey.Rose,
-		].includes(item)
-	) {
-		localStorage.setItem(LOCAL_KEY, PaletteKey.Indigo)
-		return PaletteKey.Indigo
-	}
-
-	return item
-})
-
-onMounted(() => {
-	if (currentPalette.value !== PaletteKey.Indigo) {
-		const palette = palettes.find(p => p.key === currentPalette.value)
-
-		switchPalette(<Palette>palette)
-	}
-})
+const label = computed<string>(() =>
+	appConfig.theme === Theme.Light ? "Светлая" : "Темная",
+)
 </script>
 
 <template>
-	<app-button
-		size="small"
-		text
-		icon="pi pi-palette"
-		@click="toggle"
-	/>
-	<app-overlay-panel ref="panel">
-		<app-block
-			header="Палитра"
-			class="py-1 px-1"
-		>
-			<div class="flex flex-col gap-3">
-				<div class="flex gap-1 flex-wrap">
-					<div
-						class="w-4 h-4 rounded-full cursor-pointer"
-						v-for="palette in palettes"
-						:style="{ backgroundColor: `rgb(${palette.colors[PRIMARY]})` }"
-						@click="switchPalette(palette)"
-					/>
-				</div>
+	<app-options-button
+		class="pi pi-cog"
+		header="Настройка приложения"
+	>
+		<div class="flex flex-col gap-3 max-w-64">
+			<div class="flex gap-1 flex-wrap">
+				<div
+					class="h-4 w-4 rounded-full cursor-pointer"
+					v-for="palette in palettes"
+					:style="{ backgroundColor: palette[1] }"
+					@click="setPalette(<any>palette[0])"
+				/>
 			</div>
-		</app-block>
-	</app-overlay-panel>
+			<app-button
+				:icon="icon"
+				outlined
+				size="small"
+				:label="label"
+				@click="toggleTheme"
+			/>
+		</div>
+	</app-options-button>
 </template>

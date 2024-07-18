@@ -5,11 +5,8 @@ import Aura from "./assets/presets/aura"
 import { VueQueryPlugin } from "@tanstack/vue-query"
 import "./style.css"
 import { router } from "./router"
-import ChartDataLabels from "chartjs-plugin-datalabels"
-import { Chart } from "chart.js"
 import Tooltip from "primevue/tooltip"
-
-Chart.register(ChartDataLabels)
+import { createPinia } from "pinia"
 
 createApp(RouterView)
 	.use(PrimeVue, {
@@ -18,6 +15,7 @@ createApp(RouterView)
 		ripple: true,
 	})
 	.directive("tooltip", Tooltip)
+	.use(createPinia())
 	.use(VueQueryPlugin)
 	.use(router)
 	.mount("#app")

@@ -39,7 +39,7 @@ const widget = ref<Widget>({
 					/>
 				</div>
 			</header>
-			<div class="p-6 overflow-auto h-full">
+			<div class="p-6 overflow-auto h-full flex items-start justify-center">
 				<general-widget :widget="widget" />
 			</div>
 		</div>

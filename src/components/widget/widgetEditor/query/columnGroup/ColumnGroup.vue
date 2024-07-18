@@ -4,6 +4,7 @@ import { PayloadKey, QColumn } from "../types"
 import { Nullable } from "primevue/ts-helpers"
 import { getKey, keysEqual } from "../utils"
 import { DtKey } from "@/enums/dtKey"
+import { computed } from "vue"
 
 const props = defineProps<{
 	header: string
@@ -50,6 +51,12 @@ const deleteColumn = (column: QColumn) => {
 
 	emit("delete", column)
 }
+
+const filtered = computed<QColumn[] | undefined>(() => {
+	return model.value?.filter(
+		column => column.payload?.[PayloadKey.MetaKey] === props.metaKey,
+	)
+})
 </script>
 
 <template>
@@ -62,7 +69,7 @@ const deleteColumn = (column: QColumn) => {
 		>
 			<span
 				class="text-primary-inverse bg-primary rounded-md py-1 px-3 text-sm select-none flex justify-between items-center"
-				v-for="column in model"
+				v-for="column in filtered"
 				@drop.stop
 				@dragover.stop
 				@dragleave.stop

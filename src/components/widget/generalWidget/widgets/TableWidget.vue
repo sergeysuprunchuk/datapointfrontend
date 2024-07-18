@@ -18,6 +18,7 @@ const columns = computed<string[]>(() => rules.value[MetaKey.Value] ?? [])
 	<app-data-table
 		:loading="isLoading"
 		:value="data"
+		class="flex-1"
 	>
 		<app-column
 			v-for="column in columns"

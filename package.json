@@ -15,6 +15,7 @@
 		"chart.js": "^4.4.3",
 		"chartjs-plugin-datalabels": "^2.2.0",
 		"lodash": "^4.17.21",
+		"pinia": "^2.1.7",
 		"primeicons": "^7.0.0",
 		"primevue": "^3.52.0",
 		"vue": "^3.4.29",
