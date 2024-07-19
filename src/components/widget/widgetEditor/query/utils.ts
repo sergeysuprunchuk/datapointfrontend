@@ -6,11 +6,12 @@ import {
 	Query,
 	SQResponse,
 } from "./types"
-import { computed, Ref, ref, watch } from "vue"
+import { computed, onMounted, onUnmounted, Ref, ref, watch } from "vue"
 import { cloneDeep } from "lodash"
 import { useQuery as stack } from "@tanstack/vue-query"
 import { QueryKey } from "@/enums/queryKey"
 import { api } from "@/api/query"
+import { useMutationStore } from "@/stores/mutationStore.ts"
 
 export const getKey = (key: QTableKey): string => {
 	return key.increment === 0 ? key.name : `${key.name} (${key.increment})`
@@ -22,6 +23,26 @@ export const keysEqual = (key1: QTableKey, key2: QTableKey): boolean => {
 
 export const getAllKeys = (root: QTable): QTableKey[] => {
 	return toArray(root)
+}
+
+export const getNames = (root: QTable): string[] => {
+	const dictionary: { [key: string]: boolean } = {}
+
+	const array: QTable[] = [root]
+
+	const names: string[] = []
+
+	for (const table of array) {
+		if (!dictionary[table.name]) {
+			dictionary[table.name] = true
+
+			names.push(table.name)
+		}
+
+		if (table.next) array.push(...table.next)
+	}
+
+	return names
 }
 
 export const newIncrement = (root: QTable, name: string): number => {
@@ -135,8 +156,16 @@ export const getGroup = (root: QTable, metaKey?: string): QColumnGroup[] => {
 	return columns
 }
 
+const { subscribe, unsubscribe, mutate } = useMutationStore()
+
+export const invalidate = (keys: string[]) => mutate(keys)
+
 export const useQuery = (query: Ref<Query | undefined>) => {
-	const { data: response, isLoading } = stack({
+	const {
+		data: response,
+		isLoading,
+		refetch,
+	} = stack({
 		queryKey: [QueryKey.Query, query],
 		queryFn: () => api.execute<SQResponse>(<Query>query.value),
 		enabled: () => canExecute(query.value),
@@ -163,6 +192,18 @@ export const useQuery = (query: Ref<Query | undefined>) => {
 	const setPage = (offset: number) => {
 		if (query.value) query.value.offset = offset
 	}
+
+	onMounted(() => {
+		if (query.value && query.value.table) {
+			subscribe(refetch, getNames(query.value.table))
+		}
+	})
+
+	onUnmounted(() => {
+		if (query.value && query.value.table) {
+			unsubscribe(refetch, getNames(query.value.table))
+		}
+	})
 
 	return { data, rules, isLoading, total, page, setPage, limit }
 }

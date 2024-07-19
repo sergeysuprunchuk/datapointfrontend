@@ -6,6 +6,7 @@ import OrderForm from "../../widgetEditor/query/orderForm/OrderForm.vue"
 import ColumnsForm from "../../widgetEditor/query/columnsForm/ColumnsForm.vue"
 import { computed } from "vue"
 import PaginationForm from "../../widgetEditor/query/paginationForm/PaginationForm.vue"
+import DeleteButtonForm from "./DeleteButtonForm.vue"
 
 const model = defineModel<Widget>({ required: true })
 
@@ -43,6 +44,7 @@ const setQueryValue = (key: keyof Query, value: any) => {
 				:model-value="(<Query>model.query).orderBy"
 				@update:model-value="setQueryValue('orderBy', $event)"
 			/>
+			<delete-button-form v-model="model" />
 			<pagination-form
 				:model-value="<Query>model.query"
 				@update:model-value="setQuery"

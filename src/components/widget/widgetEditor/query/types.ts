@@ -73,9 +73,14 @@ export interface Condition {
 	operator: Operator
 }
 
+export interface Row {
+	$root_id?: string
+	[key: string]: any
+}
+
 export interface SQResponse {
 	rules: { [key: string]: string[] }
-	data: { [key: string]: any }[]
+	data: Row[]
 	total: number
 }
 

@@ -11,6 +11,7 @@ export enum WidgetType {
 	InputText = "inputtext",
 	Dropdown = "dropdown",
 	Checkbox = "checkbox",
+	DeleteButton = "deletebutton",
 }
 
 export interface Widget<T = any> {

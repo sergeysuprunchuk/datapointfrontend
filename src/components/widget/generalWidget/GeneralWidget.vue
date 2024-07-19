@@ -7,12 +7,13 @@ import InputTextWidget from "./widgets/InputTextWidget.vue"
 import InputNumberWidget from "./widgets/InputNumberWidget.vue"
 import CheckboxWidget from "./widgets/CheckboxWidget.vue"
 import DropdownWidget from "./widgets/DropdownWidget.vue"
-import BarWidget from "@/components/widget/generalWidget/widgets/charts/BarWidget.vue"
-import LineWidget from "@/components/widget/generalWidget/widgets/charts/LineWidget.vue"
-import PieWidget from "@/components/widget/generalWidget/widgets/charts/PieWidget.vue"
-import ScatterWidget from "@/components/widget/generalWidget/widgets/charts/ScatterWidget.vue"
+import BarWidget from "./widgets/charts/BarWidget.vue"
+import LineWidget from "./widgets/charts/LineWidget.vue"
+import PieWidget from "./widgets/charts/PieWidget.vue"
+import ScatterWidget from "./widgets/charts/ScatterWidget.vue"
+import DeleteButtonWidget from "./widgets/DeleteButtonWidget.vue"
 
-const props = defineProps<{ widget: Widget }>()
+const props = defineProps<{ widget: Widget; data?: unknown }>()
 
 const widgetComponent = computed<any>(() => {
 	return {
@@ -26,6 +27,7 @@ const widgetComponent = computed<any>(() => {
 		[WidgetType.Line]: LineWidget,
 		[WidgetType.Pie]: PieWidget,
 		[WidgetType.Scatter]: ScatterWidget,
+		[WidgetType.DeleteButton]: DeleteButtonWidget,
 	}[props.widget.type]
 })
 </script>
@@ -34,5 +36,6 @@ const widgetComponent = computed<any>(() => {
 	<component
 		:is="widgetComponent"
 		:widget="widget"
+		:data="data"
 	/>
 </template>

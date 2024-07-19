@@ -2,8 +2,12 @@
 import { AppButton } from "@/ui"
 import GeneralWidget from "../GeneralWidget.vue"
 import { ContextKey, Widget } from "../../types.ts"
-import { syncQuery } from "../../widgetEditor/query/utils.ts"
-import { Query } from "../../widgetEditor/query/types.ts"
+import {
+	getNames,
+	invalidate,
+	syncQuery,
+} from "../../widgetEditor/query/utils.ts"
+import { QTable, Query } from "../../widgetEditor/query/types.ts"
 import { provide } from "vue"
 import { useMutation } from "@tanstack/vue-query"
 import { api } from "@/api/query.ts"
@@ -31,6 +35,7 @@ const { mutate } = useMutation({
 			...column,
 			value: undefined,
 		}))
+		invalidate(getNames(<QTable>query.value.table))
 	},
 })
 </script>
