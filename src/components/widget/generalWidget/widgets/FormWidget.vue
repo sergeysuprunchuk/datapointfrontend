@@ -1,18 +1,16 @@
 <script lang="ts" setup>
-import { AppButton } from "@/ui"
+import { AppButton, AppInDialog } from "@/ui"
 import GeneralWidget from "../GeneralWidget.vue"
-import { ContextKey, Widget } from "../../types.ts"
-import {
-	getNames,
-	invalidate,
-	syncQuery,
-} from "../../widgetEditor/query/utils.ts"
-import { QTable, Query } from "../../widgetEditor/query/types.ts"
-import { provide } from "vue"
+import { ContextKey, FormProps, Widget } from "../../types"
+import { getNames, invalidate, syncQuery } from "../../widgetEditor/query/utils"
+import { QTable, Query } from "../../widgetEditor/query/types"
+import { provide, ref } from "vue"
 import { useMutation } from "@tanstack/vue-query"
-import { api } from "@/api/query.ts"
+import { api } from "@/api/query"
 
-const props = defineProps<{ widget: Widget }>()
+const props = defineProps<{ widget: Widget<FormProps> }>()
+
+const visible = ref<boolean>(false)
 
 const query = syncQuery(() => <Query>props.widget.query)
 
@@ -35,29 +33,35 @@ const { mutate } = useMutation({
 			...column,
 			value: undefined,
 		}))
+		visible.value = false
 		invalidate(getNames(<QTable>query.value.table))
 	},
 })
 </script>
 
 <template>
-	<form
-		@submit.prevent
-		class="flex flex-col gap-3 primary-background rounded-md p-6 max-w-fit"
+	<app-in-dialog
+		:use="widget.props?.useButton"
+		v-model="visible"
 	>
-		<general-widget
-			v-for="child in widget.children"
-			:widget="child"
-		/>
-		<footer class="grid grid-cols-2 gap-3">
-			<app-button
-				label="Сохранить"
-				@click="mutate(query)"
+		<form
+			@submit.prevent
+			class="flex flex-col gap-3 primary-background rounded-md p-6 max-w-fit"
+		>
+			<general-widget
+				v-for="child in widget.children"
+				:widget="child"
 			/>
-			<app-button
-				label="Отменить"
-				severity="secondary"
-			/>
-		</footer>
-	</form>
+			<footer class="grid grid-cols-2 gap-3">
+				<app-button
+					label="Сохранить"
+					@click="mutate(query)"
+				/>
+				<app-button
+					label="Отменить"
+					severity="secondary"
+				/>
+			</footer>
+		</form>
+	</app-in-dialog>
 </template>

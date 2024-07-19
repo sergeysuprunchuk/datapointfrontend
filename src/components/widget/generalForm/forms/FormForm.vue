@@ -6,6 +6,8 @@ import ColumnGroup from "../../widgetEditor/query/columnGroup/ColumnGroup.vue"
 import { cloneDeep } from "lodash"
 import { getField, newField } from "../../utils"
 import DropdownForm from "@/components/widget/generalForm/forms/DropdownForm.vue"
+import { AppBlock, AppCheckbox } from "@/ui"
+import { computed } from "vue"
 
 const model = defineModel<Widget>({ required: true })
 
@@ -47,6 +49,17 @@ const setField = (field: Widget<FieldProps>) => {
 		}),
 	}
 }
+
+const useButton = computed<boolean | undefined>(() => {
+	return model.value.props?.useButton
+})
+
+const setUseButton = () => {
+	model.value = {
+		...model.value,
+		props: { ...(model.value.props ?? {}), useButton: !useButton.value },
+	}
+}
 </script>
 
 <template>
@@ -79,6 +92,13 @@ const setField = (field: Widget<FieldProps>) => {
 					/>
 				</template>
 			</column-group>
+			<app-block header="Использовать кнопку">
+				<app-checkbox
+					binary
+					:model-value="useButton"
+					@update:model-value="setUseButton"
+				/>
+			</app-block>
 		</aside>
 	</div>
 </template>

@@ -29,6 +29,10 @@ export interface FieldProps {
 	placeholder?: string
 }
 
+export interface FormProps {
+	useButton?: boolean
+}
+
 export enum ContextKey {
 	Get = "get",
 	Set = "set",
